@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pio run:*)",
+      "Bash(where:*)",
+      "Bash(platformio run:*)",
+      "Bash(find:*)",
+      "Bash(git checkout:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh auth status:*)",
+      "Bash(claude mcp list:*)",
+      "Bash(claude mcp:*)",
+      "mcp__mcp-atlassian__jira_create_issue",
+      "Bash(~/.platformio/penv/Scripts/pio run:*)",
+      "mcp__mcp-email-server__list_available_accounts",
+      "mcp__mcp-email-server__send_email",
+      "Bash(~/.platformio/penv/Scripts/platformio.exe run:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
