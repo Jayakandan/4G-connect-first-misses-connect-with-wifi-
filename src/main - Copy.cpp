@@ -8102,7 +8102,11 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
      wdt.feed();
     getApiResponse(deviceApiUrl);
      wdt.feed();
-
+delay(4000);
+    cleanMQTTSession();
+    delay(3000);
+    connectToMQTT();
+    delay(500);
     }
     delay(2000);
     wdt.feed();
@@ -8122,7 +8126,7 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
       wdt.feed();
       Serial.println("___________GSM Thread started___________");
       threads.addThread(gsmPortLisener);
-     // enableWifiGsm = false;
+      enableWifiGsm = false;
       delay(8000);
       wdt.feed();
       if (enableTofSensor && !TofModes == 0)
