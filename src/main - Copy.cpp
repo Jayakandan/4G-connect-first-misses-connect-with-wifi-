@@ -8102,12 +8102,38 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
      wdt.feed();
     getApiResponse(deviceApiUrl);
      wdt.feed();
-delay(4000);
+   delay(4000);
+   DisplayInfo("ZIG", "Connecting", codeVersion);
     cleanMQTTSession();
     delay(3000);
     connectToMQTT();
     delay(500);
+
+
+          if (mqttConnected)
+      {
+         myusb.begin();
+        delay(2000);
+        detectQRScanner();
+        delay(1000);
+        detectPN532();
+        delay(2000);
+        publishDeviceLogData();
+        delay(1000);
+        checkAndPublishCrashReport(); // Check and send crash report after device log
+        delay(2000);
+       Serial.println("___________Wifi Thread started___________");
+        threads.addThread(getDataFromSubscribedTopic);
+        enableWifiGsm = true;
+        delay(8000);
+        if (enableTofSensor && !TofModes == 0)
+        {
+          delay(100);
+          publishRawToTopic(deviceTofTopic, TofData, TofData.length());
+        }
+      }
     }
+
     delay(2000);
     wdt.feed();
     if (gsmMqttConnected)
