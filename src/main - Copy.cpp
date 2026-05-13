@@ -3653,6 +3653,12 @@ void enableAutoConnect()
   else
   {
     Serial.println("Autoconnect enabling: Failed");
+    bleAdvertisebegin();
+    displayCommand(deviceUnauthorizedDisplayPage);
+    while(1)
+    {
+      wdt.feed();
+    }
   }
 }
 
@@ -5501,7 +5507,9 @@ void checkSimCardStatus(bool networkMode)
         if (networkMode)
         {
           displayCommand(insertSimDisplayPage);
+          delay(5000);
            gsmSimFound = false;
+           
         }
       }
     }
@@ -7563,6 +7571,7 @@ String getEG25ResetResponse()
   else
   {
     Serial.println("Reset command failed.");
+    gsmSimFound = false;
     return "Unknown";
   }
 }
@@ -8083,6 +8092,7 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
     else if(!gsmSimFound)
     {
       wdt.feed();
+      DisplayInfo("Switching to wifi","connecting",codeVersion);
     delay(200);
     deleteHexFileIfExists();
     deletewavfile();
@@ -8108,8 +8118,6 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
     delay(3000);
     connectToMQTT();
     delay(500);
-
-
           if (mqttConnected)
       {
          myusb.begin();
