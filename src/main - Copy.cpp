@@ -390,15 +390,15 @@ const char *firmwareUrl;
 
 // Audio needs
 
- AudioPlaySdWav playSdWav1; // xy=167,173      //FUNCTION TO PLAY SDCARD FILE
-AudioMixer4 mixer1;        // xy=400,175      //MIXER FOR LEFT CHANNEL
-AudioMixer4 mixer2;        // xy=440,284      //MIXER FOR RIGHT CHANNEL
-AudioOutputI2S2 i2s2_1;    // xy=584,183
+//  AudioPlaySdWav playSdWav1; // xy=167,173      //FUNCTION TO PLAY SDCARD FILE
+// AudioMixer4 mixer1;        // xy=400,175      //MIXER FOR LEFT CHANNEL
+// AudioMixer4 mixer2;        // xy=440,284      //MIXER FOR RIGHT CHANNEL
+// AudioOutputI2S2 i2s2_1;    // xy=584,183
 
-AudioConnection patchCord1(playSdWav1, 0, mixer1, 0);
-AudioConnection patchCord2(playSdWav1, 1, mixer2, 0);
-AudioConnection patchCord3(mixer1, 0, i2s2_1, 0);
-AudioConnection patchCord4(mixer2, 0, i2s2_1, 1);
+// AudioConnection patchCord1(playSdWav1, 0, mixer1, 0);
+// AudioConnection patchCord2(playSdWav1, 1, mixer2, 0);
+// AudioConnection patchCord3(mixer1, 0, i2s2_1, 0);
+// AudioConnection patchCord4(mixer2, 0, i2s2_1, 1);
 
 // ethernet
 //byte etherNetmac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
@@ -679,7 +679,7 @@ String bleNrf52Command = bleStartCommand + "#" + blename + "#" + String(bleTxPow
                          (bleConnectMode ? "true" : "false") + "#"+String(rssiat1m) ;
 String apiResponse; // Global variable to store the API response
 String TofData = deviceMacAddress + "#" + String(peopleCount);
-String deviceApiUrl =  "https://zig-app.com/bjcta/hardware/proxy/api/device-route/v1/get-individual-zig-device?device_id=" + String(teensyMAC());
+String deviceApiUrl =  "https://zig-app.com/Ticket/api/Hardware/Hardwaresettings/" + String(teensyMAC()); //"https://zig-app.com/bjcta/hardware/proxy/api/device-route/v1/get-individual-zig-device?device_id=" + String(teensyMAC());
 String apiError = "OK";
 String audioUpdateErrorValid = "OK";
 String audioUpdateErrorInvalid = "OK";
@@ -1046,88 +1046,88 @@ void saveBLEConfig(int bleMajor, int bleMinor, int bleTxPower, int rssilevel)
 
 
 
-void playWavFile()
-{
+// void playWavFile()
+// {
    
-CORE_PIN2_CONFIG  = 2;
-CORE_PIN3_CONFIG  = 2;
-CORE_PIN4_CONFIG  = 2;
-CORE_PIN5_CONFIG  = 2;
-CORE_PIN33_CONFIG = 2;
+// CORE_PIN2_CONFIG  = 2;
+// CORE_PIN3_CONFIG  = 2;
+// CORE_PIN4_CONFIG  = 2;
+// CORE_PIN5_CONFIG  = 2;
+// CORE_PIN33_CONFIG = 2;
  
 
-  if (isPlayingAudio)
-  {
-    Serial.println("Audio is already playing. Skipping request.");
-    return; // Exit if audio is already playing
-  }
+//   if (isPlayingAudio)
+//   {
+//     Serial.println("Audio is already playing. Skipping request.");
+//     return; // Exit if audio is already playing
+//   }
 
-  const char *filename;
-  // Select the file based on fileIndex
-  switch (fileIndex)
-  {
-  case 1:
-    filename = "buzzer.wav";
-    break;
-  case 2:
-    filename = "Invalid_entry_2.wav";
-    break;
-  case 3:
-    filename = "low_battery.wav";
-    break;
-  case 4:
-    filename = "wifi_connected.wav";
-    break;
-  case 5:
-    filename = "sos_signal.wav";
-    break;
-  case 6:
-    filename = "beep.wav";
-    break;
-  case 7:
-    filename = "buzzer_double_sound.wav";
-    break;
-  case 8:
-    filename = "buzzer_triple_sound.wav";
-    break;
-  default:
-    Serial.println("Invalid file index. Please choose between 1 and 5.");
-    playSpeaker = false;
-    return;
-  }
+//   const char *filename;
+//   // Select the file based on fileIndex
+//   switch (fileIndex)
+//   {
+//   case 1:
+//     filename = "buzzer.wav";
+//     break;
+//   case 2:
+//     filename = "Invalid_entry_2.wav";
+//     break;
+//   case 3:
+//     filename = "low_battery.wav";
+//     break;
+//   case 4:
+//     filename = "wifi_connected.wav";
+//     break;
+//   case 5:
+//     filename = "sos_signal.wav";
+//     break;
+//   case 6:
+//     filename = "beep.wav";
+//     break;
+//   case 7:
+//     filename = "buzzer_double_sound.wav";
+//     break;
+//   case 8:
+//     filename = "buzzer_triple_sound.wav";
+//     break;
+//   default:
+//     Serial.println("Invalid file index. Please choose between 1 and 5.");
+//     playSpeaker = false;
+//     return;
+//   }
 
-  isPlayingAudio = true;             // Set the flag to indicate audio is playing
-  audioPlaybackStartTime = millis(); // Record the time when playback starts
-  Serial.print("Playing file: ");
-  Serial.println(filename);
+//   isPlayingAudio = true;             // Set the flag to indicate audio is playing
+//   audioPlaybackStartTime = millis(); // Record the time when playback starts
+//   Serial.print("Playing file: ");
+//   Serial.println(filename);
 
-  if (!playSdWav1.play(filename))
-  {
-    Serial.println("Error: Failed to start playback.");
-    playSpeaker = false;
-    isPlayingAudio = false; // Reset the flag if playback fails
-    return;
-  }
-  delay(5);
+//   if (!playSdWav1.play(filename))
+//   {
+//     Serial.println("Error: Failed to start playback.");
+//     playSpeaker = false;
+//     isPlayingAudio = false; // Reset the flag if playback fails
+//     return;
+//   }
+//   delay(5);
 
-  // Wait until the audio finishes playing
-  while (playSdWav1.isPlaying())
-  {
-    wdt.feed();
-  }
+//   // Wait until the audio finishes playing
+//   while (playSdWav1.isPlaying())
+//   {
+//     wdt.feed();
+//   }
 
-  delay(500);
-  Serial.println("Done playing file");
-  isPlayingAudio = false; // Reset the flag to indicate audio has stopped
-  playSpeaker = false;  
-  delay(10);
-CORE_PIN2_CONFIG  = 0;
-CORE_PIN3_CONFIG  = 0;
-CORE_PIN4_CONFIG  = 0;
-CORE_PIN5_CONFIG  = 0;
-CORE_PIN33_CONFIG = 0;
+//   delay(500);
+//   Serial.println("Done playing file");
+//   isPlayingAudio = false; // Reset the flag to indicate audio has stopped
+//   playSpeaker = false;  
+//   delay(10);
+// CORE_PIN2_CONFIG  = 0;
+// CORE_PIN3_CONFIG  = 0;
+// CORE_PIN4_CONFIG  = 0;
+// CORE_PIN5_CONFIG  = 0;
+// CORE_PIN33_CONFIG = 0;
 
-}
+// }
 
 
 
@@ -1469,74 +1469,50 @@ void saveWifiConfig(const String &ssid, const String &password)
 void DisplayHomepage(String msg1, String msg2)
 {
 
-  if (deviceHomePageStatus)
-  {
-    
-    displayCommand("page 1");
-    displaybrightcotrolcenter = false;
-     displaybrightesscontrol(displayBrightnessLevel);
+  if(deviceHomePageStatus){
+      displayCommand("page 1");
   }
-  if (deviceBusyStatus == 1)
-  {
+  if(deviceBusyStatus == 1){
     displayCommand("p4.pic=16");
     displayCommand("t2.txt=\"" + homepageHeadingStatus1 + "\"");
-  }
-  else if (deviceBusyStatus == 0)
-  {
-    if (enableToggleDisplayLines)
-    {
+    
+  }else if(deviceBusyStatus == 0){
+    if(enableToggleDisplayLines){
       displayCommand("t2.txt=\"" + homepageHeadingStatus2 + "\"");
-    }
-    else
-    {
+    }else{
       displayCommand("t2.txt=\"" + homepageHeadingStatus1 + "\"");
     }
 
     displayCommand("p4.pic=14");
-    
   }
-  else if (deviceBusyStatus == 2)
-  {
+  else if(deviceBusyStatus == 2){
     displayCommand("t2.txt=\"" + homepageHeadingStatus4 + "\"");
     displayCommand("p4.pic=14");
   }
 
-  if (wifiConnected && mqttConnected)
-  { // Wifi or GSM status icon
+
+  if(wifiConnected && mqttConnected){   // Wifi or GSM status icon
     displayCommand("p1.pic=9");
-  }
-  else if (gsmInternetStatus && gsmMqttConnected)
-  {
+  }else if(gsmInternetStatus && gsmMqttConnected){
     displayCommand("p1.pic=8");
-  }
-  else
-  {
+  }else{
     displayCommand("t2.txt=\"" + homepageHeadingStatus3 + "\"");
     displayCommand("p1.pic=10");
     displayCommand("p4.pic=15");
   }
-  if (bleAdStatus)
-  { // Ble ad status icon
+  if(bleAdStatus){   // Ble ad status icon
     displayCommand("p2.pic=7");
-  }
-  else
-  {
+  }else{
     displayCommand("p2.pic=17");
   }
-  if (deviceTicketTelematriceMode || deviceTicketTelematricHybridMode == 1)
-  { // device mode status icon
+  if(deviceTicketTelematriceMode || deviceTicketTelematricHybridMode == 1){ // device mode status icon
     displayCommand("p3.pic=12");
-  }
-  else
-  {
+  }else {
     displayCommand("p3.pic=11");
   }
-  if (gps.location.isValid())
-  { // device GPS status status icon
+  if(gps.location.isValid()){  // device GPS status status icon
     displayCommand("p5.pic=13");
-  }
-  else 
-  {
+  }else {
     displayCommand("p5.pic=17");
   }
   // if(enableWifiGsm){
@@ -1549,8 +1525,8 @@ void DisplayHomepage(String msg1, String msg2)
   displayCommand("t1.txt=\"" + codeVersion + "\"");
   deviceHomePageStatus = false;
   deviceInfoPageStatus = true;
-}
 
+}
 void DisplayInfo(String msg1, String msg2, String msg3)
 {
   if (deviceInfoPageStatus)
@@ -1789,9 +1765,7 @@ void playTicketSoundAndLight(int ticketValidity)
 
     if (buzzerEnable)
     {
-      lightUpLED(0, 0, 2, 0);
-      fileIndex = 6;
-      playSpeaker = true;
+      lightUpLED(0, 0, 2, 1);
       delay(validTiceketDelay);
     }
     else
@@ -1803,32 +1777,30 @@ void playTicketSoundAndLight(int ticketValidity)
   else if (ticketValidity == 0)
   {
     // Invalid ticket: Red light and three short beeps
-      if (buzzerEnable && useSpeakerSound || !buzzerEnable)
+    for (int i = 0; i < 3; i++)
+    {
+      if (buzzerEnable)
       {
-          
-         lightUpLED(1, 0, 0, 0);
+        lightUpLED(1, 0, 0, 1);
         delay(invalidTicketDelay);
         lightUpLED(0, 0, 0, 0);
-       // delay(invalidTicketDelay);
-      }
-     else 
-      {
-       lightUpLED(1, 0, 0, 0);
-       fileIndex = 8;
-       playSpeaker = true;
         delay(invalidTicketDelay);
-        
       }
-    
+      else
+      {
+        lightUpLED(1, 0, 0, 0);
+        delay(invalidTicketDelay);
+        lightUpLED(0, 0, 0, 0);
+        delay(invalidTicketDelay);
+      }
+    }
   }
   else if (ticketValidity == 3)
   {
     // Yellow light: Single long beep
     if (buzzerEnable)
     {
-      lightUpLED(0, 4, 0, 0);
-      fileIndex = 6;
-      playSpeaker = true;
+      lightUpLED(0, 4, 0, 1);
       delay(validTiceketDelay);
     }
     else
@@ -1859,9 +1831,7 @@ void playTicketSoundAndLight(int ticketValidity)
     // Stop sound
     if (buzzerEnable)
     {
-      lightUpLED(1, 0, 0, 0);
-      fileIndex = 6;
-      playSpeaker = true;
+      lightUpLED(1, 0, 0, 1);
       delay(stopTicketDelay);
     }
     else
@@ -1873,7 +1843,6 @@ void playTicketSoundAndLight(int ticketValidity)
   // Turn off all lights and buzzer
   lightUpLED(0, 0, 0, 0);
 }
-
 
 float checkAudioversion(String filename) {
   File wavFile = SD.open(filename.c_str(), FILE_READ);
@@ -1928,13 +1897,12 @@ void sendAT(const char *cmd) {
 }
 
   
-  void parseApiResponse(const String &apiResponse)
-{  
 
- DynamicJsonDocument jsonDocument(8192); // Adjust size if needed
+void parseApiResponse(const String &apiResponse)
+{
+  // Parse the JSON data
+  DynamicJsonDocument jsonDocument(4096); // Adjust the size as needed
   DeserializationError jsonError = deserializeJson(jsonDocument, apiResponse);
-   
-  Serial.println(jsonError.f_str());
 
   if (jsonError)
   {
@@ -1943,194 +1911,134 @@ void sendAT(const char *cmd) {
     bleAdvertisebegin();
     displayCommand(invaildDataDisplayPage);
     deviceInfoPageStatus = true;
-    while (true) { } // Halt
+    while (true)
+    {
+      // Halt the program here
+    }
     return;
   }
-  
-  JsonObject root = jsonDocument["data"];
 
-
-
-  // Check if root is valid
-  if (root.isNull())
+  // Check if the JSON data is null for each key
+  if (jsonDocument["ble"] == nullptr &&
+      jsonDocument["mqtt"] == nullptr &&
+      jsonDocument["validation"] == nullptr &&
+      jsonDocument["wifi"] == nullptr &&
+      jsonDocument["gps"] == nullptr &&
+      jsonDocument["firmware"] == nullptr) //
   {
     apiError = "NULL res";
     Serial.println("JSON data is null for all keys.");
     bleAdvertisebegin();
     displayCommand(deviceUnauthorizedDisplayPage);
-    while (true) { } // Halt
+    while (true)
+    {
+      // Halt the program here
+    }
     return;
   }
 
-  // ---------------- Display Brightness ----------------
-  if (root["Displaybrightness"] != nullptr) {
-    JsonObject brightnessObj = root["Displaybrightness"];
+  // if (jsonDocument.containsKey("ble"))
+  // {
+  //   Serial.println("API ok");
+  //    wifiApiDataState = true;
+  //   // return;
+  // }
+  // else
+  // {
+  //   Serial.println("Invalid data in api");
+  //   apiError = "Invalid data in api reponse";
+  //   return;
+  // }
 
-    auto isValidString = [](JsonVariant val) {
-      return !val.isNull() && String(val) != "" && String(val) != "NA";
-    };
-
-    bool levelFound = isValidString(brightnessObj["displaybrightnesslevel"]);
-    bool conditionFound = isValidString(brightnessObj["ticketpagedisplaybrightnesscondition"]);
-
-    // Defaults
-    displayBrightnessLevel = 100;
-    displayBrightnessCondition = true;
-    displaybrigtnesserror = "";
-    TicketDisplaybrightnesserror = "";
-
-    if (levelFound && conditionFound) {
-      displayBrightnessLevel = String(brightnessObj["displaybrightnesslevel"]).toInt();
-      displaybrigtnesserror = String(displayBrightnessLevel);
-      if (displayBrightnessLevel < 0 || displayBrightnessLevel > 100) {
-        displayBrightnessLevel = 100;
-        Serial.println("Brightness level out of range, set to 100.");
-        displaybrigtnesserror = "Brightness level out of range";
-      }
-
-      String condStr = brightnessObj["ticketpagedisplaybrightnesscondition"];
-      TicketDisplaybrightnesserror = condStr ? "true" : "false";
-      if (condStr == "true" || condStr == "1") {
-        displayBrightnessCondition = true;
-      } else if (condStr == "false" || condStr == "0") {
-        displayBrightnessCondition = false;
-      } else {
-        displayBrightnessCondition = true;
-        Serial.println("Ticket display condition invalid, set to true.");
-        TicketDisplaybrightnesserror = "Ticket display condition invalid";
-      }
-    } else {
-      displayBrightnessLevel = 100;
-      displayBrightnessCondition = true;
-      Serial.println("Brightness or condition missing/NA. Defaults applied.");
-      displaybrigtnesserror = "Brightness or condition missing/NA";
-      TicketDisplaybrightnesserror = "Brightness or condition missing/NA";
-    }
-  } else {
-    displayBrightnessLevel = 100;
-    displayBrightnessCondition = true;
-    Serial.println("Displaybrightness object not found. Defaults applied.");
-    displaybrigtnesserror = "Display brightness object not found";
-    TicketDisplaybrightnesserror = "Display brightness object not found";
-  }
-
-  // Apply brightness
-  displaybrightesscontrol(displayBrightnessLevel);
-
-  // ---------------- BLE ----------------
-  ibeaconMajor = root["ble"]["ibeaconMajor"];
-  ibeaconMinor = root["ble"]["ibeaconMinor"];
-  String nrf52BleName = root["ble"]["blename"].as<String>();
+  // Ble json data
+  ibeaconMajor = jsonDocument["ble"]["ibeaconMajor"];
+  ibeaconMinor = jsonDocument["ble"]["ibeaconMinor"];
+  String nrf52BleName = jsonDocument["ble"]["blename"].as<String>();
   blename = nrf52BleName;
-  bleTxPower = root["ble"]["bleTxPower"];
-  bleDfuMode = root["ble"]["bleDfuMode"];
-  bleIbeaconMode = root["ble"]["bleIbeaconMode"];
-  bleConnectMode = root["ble"]["bleConnectMode"];
-  requiredBleScanRssi = root["ble"]["bleCardScanRssi"];
-  bleScanMode = root["ble"]["bleScanMode"];
-  if (root["ble"]["rssiat1m"].is<const char*>()) {
-  const char* val = root["ble"]["rssiat1m"];
-  if (strcmp(val, "NA") != 0 && strlen(val) > 0) {
-    rssiat1m = atoi(val);   
-  }
-} 
-else if (root["ble"]["rssiat1m"].is<int>()) {
-  rssiat1m = root["ble"]["rssiat1m"].as<int>();  
-}
+  bleTxPower = jsonDocument["ble"]["bleTxPower"];
+  bleDfuMode = jsonDocument["ble"]["bleDfuMode"];
+  bleIbeaconMode = jsonDocument["ble"]["bleIbeaconMode"];
+  bleConnectMode = jsonDocument["ble"]["bleConnectMode"];
+  requiredBleScanRssi = jsonDocument["ble"]["bleCardScanRssi"];
+  bleScanMode = jsonDocument["ble"]["bleScanMode"];
 
-  // ---------------- MQTT ----------------
-  mqttLogDelay = root["mqtt"]["mqttLogDelay"];
-  wifiLogPublishInterval = root["mqtt"]["wifiLogPublishInterval"];
-  gsmLogPublishInterval = root["mqtt"]["gsmLogPublishInterval"];
-  totalDeviceLog = root["mqtt"]["totalDeviceLog"];
-  sendOnlyGpsLog = root["mqtt"]["sendOnlyGpsLog"];
-  deviceTopic = root["mqtt"]["deviceTopic"].as<String>();
-  deviceReactTopic = root["mqtt"]["deviceReactTopic"].as<String>();
-  deviceLogTopic = root["mqtt"]["deviceLogTopic"].as<String>();
-  deviceBleCardTopic = root["mqtt"]["bleCardTopic"].as<String>();
+  // MQTT json data
+  mqttLogDelay = jsonDocument["mqtt"]["mqttLogDelay"];
+  wifiLogPublishInterval = jsonDocument["mqtt"]["wifiLogPublishInterval"];
+  gsmLogPublishInterval = jsonDocument["mqtt"]["gsmLogPublishInterval"];
+  totalDeviceLog = jsonDocument["mqtt"]["totalDeviceLog"];
+  sendOnlyGpsLog = jsonDocument["mqtt"]["sendOnlyGpsLog"];
+  String deviceTopicStr = jsonDocument["mqtt"]["deviceTopic"].as<String>();
+  deviceTopic = deviceTopicStr;
+  String deviceReactTopicStr = jsonDocument["mqtt"]["deviceReactTopic"].as<String>();
+  deviceReactTopic = deviceReactTopicStr;
+  String deviceLogTopicStr = jsonDocument["mqtt"]["deviceLogTopic"].as<String>();
+  deviceLogTopic = deviceLogTopicStr;
+  String deviceBleCardTopicStr = jsonDocument["mqtt"]["bleCardTopic"].as<String>();
+  deviceBleCardTopic = deviceBleCardTopicStr;
 
-  // ---------------- Validation ----------------
-  validTiceketDelay = root["validation"]["validTiceketDelay"];
-  invalidTicketDelay = root["validation"]["invalidTicketDelay"];
-  validSpecialTiceketDelay = root["validation"]["validSpecialTiceketDelay"];
-  multipleTicketDelay = root["validation"]["multipleTicketDelay"];
-  specialTicketType = root["validation"]["specialTicketType"];
-  startDeviceMode = root["validation"]["startDeviceMode"];
-
-  // startDeviceMode 0-3: mqtt.zig-web.com | 4-7: mq.zig-web.com
-  // 0/4=Disabled, 1/5=NFC Only, 2/6=QR Only, 3/7=NFC+QR
-  if (startDeviceMode >= 4)
-  {
-    mqttServer = mqttServerAlt; // Switch to mq.zig-web.com
-    startDeviceMode = startDeviceMode - 4; // Normalize to 0-3 for input device logic
-    Serial.println("MQTT Server: mq.zig-web.com (mode 4-7)");
-  }
-  else
-  {
-    Serial.println("MQTT Server: mqtt.zig-web.com (mode 0-3)");
-  }
-
-  buzzerEnable = root["validation"]["buzzerEnable"];
-  displayLastTicket = root["validation"]["displayLastTicketScreen"];
-  enableMultipleLights = root["validation"]["enableMultipleLights"];
-  String homepageHeadingStatus1Str = root["validation"]["homepageHeadingStatus1"];
-  String homepageHeadingStatus2Str = root["validation"]["homepageHeadingStatus2"];
-  String homepageHeadingStatus3Str = root["validation"]["homepageHeadingStatus3"];
-  String homepageHeadingStatus4Str = root["validation"]["homepageHeadingStatus4"];
+  // Validation json data
+  validTiceketDelay = jsonDocument["validation"]["validTiceketDelay"];
+  invalidTicketDelay = jsonDocument["validation"]["invalidTicketDelay"];
+  validSpecialTiceketDelay = jsonDocument["validation"]["validSpecialTiceketDelay"];
+  multipleTicketDelay = jsonDocument["validation"]["multipleTicketDelay"];
+  specialTicketType = jsonDocument["validation"]["specialTicketType"];
+  buzzerEnable = jsonDocument["validation"]["buzzerEnable"];
+  enableMultipleLights = jsonDocument["validation"]["enableMultipleLights"];
+  displayLastTicket = jsonDocument["validation"]["displayLastTicketScreen"];
+  String homepageHeadingStatus1Str = jsonDocument["validation"]["homepageHeadingStatus1"];
+  String homepageHeadingStatus2Str = jsonDocument["validation"]["homepageHeadingStatus2"];
+  String homepageHeadingStatus3Str = jsonDocument["validation"]["homepageHeadingStatus3"];
+  String homepageHeadingStatus4Str = jsonDocument["validation"]["homepageHeadingStatus4"];
   homepageHeadingStatus1 = homepageHeadingStatus1Str;
   homepageHeadingStatus2 = homepageHeadingStatus2Str;
   homepageHeadingStatus3 = homepageHeadingStatus3Str;
   homepageHeadingStatus4 = homepageHeadingStatus4Str;
-  enableToggleDisplayLines = root["validation"]["enableToggleDisplayLines"];
+  enableToggleDisplayLines = jsonDocument["validation"]["enableToggleDisplayLines"];
 
-  // ---------------- Firmware ----------------
-  firmwareUrl = root["frimware"]["firmwareUrl"];
-  firmwareVersion = root["frimware"]["firmwareVersion"];
+  // firmware json data
+  firmwareUrl = jsonDocument["firmware"]["firmwareUrl"];
+  firmwareVersion = jsonDocument["firmware"]["firmwareVersion"];
 
-  // ---------------- GPS ----------------
-  requiredGPSSpeedThreshold = root["gps"]["requiredSpeedLimit"];
-  requiredGPSsatellitesThreshold = root["gps"]["requiredNosatellites"];
-  deviceTicketTelematricHybridMode = root["gps"]["deviceTicketTelematricHybridMode"];
-  sendOutCardDataCount = root["gps"]["sendOutCardDataCount"];
+  // Gps json data
+  requiredGPSSpeedThreshold = jsonDocument["gps"]["requiredSpeedLimit"];
+  requiredGPSsatellitesThreshold = jsonDocument["gps"]["requiredNosatellites"];
+  deviceTicketTelematricHybridMode = jsonDocument["gps"]["deviceTicketTelematricHybridMode"];
+  sendOutCardDataCount = jsonDocument["gps"]["sendOutCardDataCount"];
+  // TOF Json Data
+  TofModes = jsonDocument["tof"]["tofMode"];
+  String homepageHeadingStatus5Str = jsonDocument["tof"]["benchmarkDisplayTittle"];
+  advertiseInterval = jsonDocument["tof"]["advertiseInterval"];
+  tofSensorThreshold = jsonDocument["tof"]["tofSensorThreshold"];
 
-  // ---------------- TOF ----------------
-  TofModes = root["tof"]["tofMode"];
-  String homepageHeadingStatus5Str = root["tof"]["benchmarkDisplayTittle"];
-  advertiseInterval = root["tof"]["advertiseInterval"];
-  tofSensorThreshold = root["tof"]["tofSensorThreshold"];
-
-  // ---------------- Wifi ----------------
-  EepromWifiSsid = root["wifi"]["primaryWifi"]["ssid"].as<String>();
-  EepromWifiPass = root["wifi"]["primaryWifi"]["password"].as<String>();
+  // Wifi json data
+  String EepromWifiSsidSStr = jsonDocument["wifi"]["primaryWifi"]["ssid"].as<String>();
+  EepromWifiSsid = EepromWifiSsidSStr;
+  String EepromWifiPassStr = jsonDocument["wifi"]["primaryWifi"]["password"].as<String>();
+  EepromWifiPass = EepromWifiPassStr;
   Serial.println("WiFi credentials loaded from API");
-  Serial.print("SSID: "); Serial.println(EepromWifiSsid);
-  Serial.print("Password: "); Serial.println(EepromWifiPass);
+  Serial.print("SSID: ");
+  Serial.println(EepromWifiSsid);
+  Serial.print("Password: ");
+  Serial.println(EepromWifiPass);
 
-  // ---------------- Speaker ----------------
-  if (root["speaker"] == nullptr) {
-    Serial.println("Speaker Config not found");
-  } else {
-    useSpeakerSound = root["speaker"]["useSpeaker"];
-    gainValue = root["speaker"]["speakerGain"];
-    mixer1.gain(0, gainValue);
-    mixer2.gain(0, gainValue);
-    updatedSound = root["speaker"]["updatedSound"];
+  saveWifiConfig(EepromWifiSsid, EepromWifiPass);
+  // // Write Wi-Fi data to EEPROM
+  // unsigned int eeAddress = 0;               // Choose the appropriate EEPROM address for your application
+  // EEPROM.put(eeAddress, EepromWifiSsid);    // Write SSID to EEPROM
+  // eeAddress += EepromWifiSsid.length() + 1; // Update address for the next value
+  // EEPROM.put(eeAddress, EepromWifiPass);    // Write password to EEPROM
 
-    // Valid audio
-    updateforvalid = root["speaker"]["validEntryAudio"]["updatevalidurl"].as<bool>();
-    validaudioupdate = root["speaker"]["validEntryAudio"]["audioValidVersion"].as<float>();
-    validUrl = root["speaker"]["validEntryAudio"]["validurl"].as<String>();
-    validSize = root["speaker"]["validEntryAudio"]["size"].as<long>();
-    validFilename = root["speaker"]["validEntryAudio"]["filename"].as<String>();
+  // // Write BLE data to EEPROM
+  // unsigned int bleEeAddress = 100; // Choose a suitable EEPROM address for your application
 
-    // Invalid audio
-    updateforinvalid = root["speaker"]["invalidEntryAudio"]["updateinvalidurl"].as<bool>();
-    invalidaudioupdate = root["speaker"]["invalidEntryAudio"]["audioinValidVersion"].as<float>();
-    invalidUrl = root["speaker"]["invalidEntryAudio"]["invalidurl"].as<String>();
-    invalidSize = root["speaker"]["invalidEntryAudio"]["size"].as<long>();
-    invalidFilename = root["speaker"]["invalidEntryAudio"]["filename"].as<String>();
-  }
-saveWifiConfig(EepromWifiSsid, EepromWifiPass);
+  // EEPROM.put(bleEeAddress, ibeaconMajor);
+  // bleEeAddress += sizeof(ibeaconMajor);
+  // EEPROM.put(bleEeAddress, ibeaconMinor);
+  // bleEeAddress += sizeof(ibeaconMinor);
+  // EEPROM.put(bleEeAddress, bleTxPower);
+
+
 
   Serial.println("//________________Api Ble data________________//");
   Serial.print("ble_major: ");
@@ -2323,19 +2231,13 @@ else
 void displayAllConnectedPage()
 {
   displayCommand(zigNetworkFoundDisplayPage);
-  if (useSpeakerSound)
-  {
-    // playWavFile();
-    fileIndex = 3;
-    playSpeaker = true;
-  }
-  else
-  {
+ 
+ 
     lightUpLED(2, 2, 2, 1);
     delay(3000);
     wdt.feed();
     lightUpLED(0, 0, 0, 0);
-  }
+  
 
   deviceHomePageStatus = true;
   if (isEthernetConnected)
@@ -3653,12 +3555,6 @@ void enableAutoConnect()
   else
   {
     Serial.println("Autoconnect enabling: Failed");
-    bleAdvertisebegin();
-    displayCommand(deviceUnauthorizedDisplayPage);
-    while(1)
-    {
-      wdt.feed();
-    }
   }
 }
 
@@ -3969,38 +3865,38 @@ void ProcessDisplayData(String str)
         if (TicketType == 1)
         {
           DiplayScreenTicketID(TicketUserName, 0, tickets, "57250", "0", activationDate, "55106"); // Gold
-           ticketvalidatedbrightess();
+          // ticketvalidatedbrightess();
         }
         else if (TicketType == 2)
         {
           DiplayScreenTicketID(TicketUserName, 0, tickets, "7909", "0", activationDate, "9892"); // Light green
-          ticketvalidatedbrightess();
+        //  ticketvalidatedbrightess();
         }
         else if (TicketType == 3)
         {
           DiplayScreenTicketID(TicketUserName, 0, tickets, "8790", "65535", activationDate, "15094"); // blue
-          ticketvalidatedbrightess();
+          //ticketvalidatedbrightess();
         }
         else if (TicketType == 4)
         {
           DiplayScreenTicketID(TicketUserName, 0, tickets, "33046", "65535", activationDate, "37366"); // violet
-          ticketvalidatedbrightess();
+         // ticketvalidatedbrightess();
         
         }
         else if (TicketType == 5)
         {
           DiplayScreenTicketID(TicketUserName, 0, tickets, "12060", "0", activationDate, "9947"); // light blue
-          ticketvalidatedbrightess();
+         // ticketvalidatedbrightess();
         }
         else if (TicketType == 6)
         {
           DiplayScreenTicketID(TicketUserName, 0, tickets, "65535", "0", activationDate, "63390"); // white with name
-           ticketvalidatedbrightess();
+           //ticketvalidatedbrightess();
         }
         else
         {
           DiplayScreenTicketID(TicketUserName, 0, tickets, "65535", "0", "", "63390");
-           ticketvalidatedbrightess();
+           //ticketvalidatedbrightess();
 
         
         }
@@ -4078,40 +3974,13 @@ void ProcessDisplayData(String str)
       {
         // Serial.println("Special Ticket");
         DiplayScreenTicketID(TicketUserName, 0, tickets, "57250", "0", "VIP", "55106"); 
-        ticketvalidatedbrightess();
+       // ticketvalidatedbrightess();
       } 
-      
-      /*  else if (TicketType == 2)
-        {
-          DiplayScreenTicketID(TicketUserName, 0, tickets, "7909", "0", activationDate, "9892"); // Light green
-          ticketvalidatedbrightess();
-        }
-        else if (TicketType == 3)
-        {
-          DiplayScreenTicketID(TicketUserName, 0, tickets, "8790", "65535", activationDate, "15094"); // blue
-          ticketvalidatedbrightess();
-        }
-        else if (TicketType == 4)
-        {
-          DiplayScreenTicketID(TicketUserName, 0, tickets, "33046", "65535", activationDate, "37366"); // violet
-          ticketvalidatedbrightess();
-        
-        }
-        else if (TicketType == 5)
-        {
-          DiplayScreenTicketID(TicketUserName, 0, tickets, "12060", "0", activationDate, "9947"); // light blue
-          ticketvalidatedbrightess();
-        }
-        else if (TicketType == 6)
-        {
-          DiplayScreenTicketID(TicketUserName, 0, tickets, "65535", "0", activationDate, "63390"); // white with name
-           ticketvalidatedbrightess();
-        }*/
       else
       {
         // Serial.println("Valid Ticket");
         DiplayScreenTicketID(TicketUserName, 0, tickets, "65535", "0", "", "63390");
-        ticketvalidatedbrightess();
+      //  ticketvalidatedbrightess();
       }
       if (enableMultipleLights)
       {
@@ -4123,16 +3992,7 @@ void ProcessDisplayData(String str)
       }
       else
       {
-        if (useSpeakerSound)
-        {
-          fileIndex = 1;
-          playSpeaker = true;
-          Serial.print("valid"); 
-        }
-        else
-        {
           playTicketSoundAndLight(1);
-        }
       }
     }
    if (!displayLastTicket)
@@ -4148,15 +4008,7 @@ void ProcessDisplayData(String str)
     Serial.println("Invalid Ticket");
    
     displayCommand("page 3");
-    ticketvalidatedbrightess();   
-    if (useSpeakerSound)
-    {
-      fileIndex = 2;
-      playSpeaker = true;
-      Serial.println("invalid");
-    
-    }
-    
+
     playTicketSoundAndLight(0);
     DisplayHomepage(displayLine1, displayLine2);
     
@@ -4292,9 +4144,9 @@ void publishNFCDataToTopic(const String &topic, const String &payload, int size)
     return;
   }
 
-  drainingDelay(100); // Wait before payload, drains serial
+  drainingDelay(200); // Wait before payload, drains serial
 
-  String pubResp = sendWifiATCommands(payload, "+MQTTPUB:OK", 3000);
+  String pubResp = sendWifiATCommands(payload, "+MQTTPUB:OK", 5000);
 
   if (pubResp.indexOf("+MQTTPUB:OK") != -1)
   {
@@ -4309,14 +4161,14 @@ void publishNFCDataToTopic(const String &topic, const String &payload, int size)
     goOffline();
     return;
   }
-  else
+  /*else
   {
     Serial.println("WIFI - NFC Data failed (MQTT timeout)");
     isPublishing = false;
     espSerialBusy = false;
     goMqttOffline();
     return;
-  }
+  }*/
 
   isPublishing = false;
   espSerialBusy = false;
@@ -4891,8 +4743,8 @@ void getDataFromSubscribedTopic()
             if (gainValue >= 0 && gainValue <= 100)
             {
               Serial.println("Setting gain to: " + String(gainValue));
-              mixer1.gain(0, gainValue);
-              mixer2.gain(0, gainValue);
+           //  mixer1.gain(0, gainValue);
+             // mixer2.gain(0, gainValue);
             }
             else
             {
@@ -5498,7 +5350,6 @@ void checkSimCardStatus(bool networkMode)
         else
         {
           Serial.println("Failed to retrieve ICCID.");
-          gsmSimFound = false;
         }
       }
       else
@@ -5507,9 +5358,11 @@ void checkSimCardStatus(bool networkMode)
         if (networkMode)
         {
           displayCommand(insertSimDisplayPage);
-          delay(5000);
-           gsmSimFound = false;
-           
+          bleAdvertisebegin();
+          while (true)
+          {
+            // Halt the program here
+          }
         }
       }
     }
@@ -5521,7 +5374,11 @@ void checkSimCardStatus(bool networkMode)
     if (networkMode)
     {
       displayCommand(insertSimDisplayPage);
-     gsmSimFound = false;
+      bleAdvertisebegin();
+      while (true)
+      {
+        // Halt the program here
+      }
     }
   }
 }
@@ -6187,8 +6044,8 @@ void gsmPortLisener()
             if (gainValue >= 0 && gainValue <= 100)
             {
               Serial.println("Setting gain to: " + String(gainValue));
-              mixer1.gain(0, gainValue);
-              mixer2.gain(0, gainValue);
+            //  mixer1.gain(0, gainValue);
+             // mixer2.gain(0, gainValue);
             }
             else
             {
@@ -7571,7 +7428,6 @@ String getEG25ResetResponse()
   else
   {
     Serial.println("Reset command failed.");
-    gsmSimFound = false;
     return "Unknown";
   }
 }
@@ -7971,22 +7827,13 @@ if (fileSize > 0) {
  
 void setup()
 {
-CORE_PIN2_CONFIG  = 0;
-CORE_PIN3_CONFIG  = 0;
-CORE_PIN4_CONFIG  = 0;
-CORE_PIN5_CONFIG  = 0;
-CORE_PIN33_CONFIG = 0;
    Serial.begin(115200);
 displaySerial.begin(displayBaud);
 initializeSDCard();
 loadbrightessvalue();
-CORE_PIN14_CONFIG = 0;
-CORE_PIN15_CONFIG = 0;
 Serial3.addMemoryForRead(serial3Buffer_hw, sizeof(serial3Buffer_hw));
   gpsSerial.begin(GPSBaud); // Initialize Serial Monitor
   delay(1000);
-CORE_PIN14_CONFIG = 2;
- CORE_PIN15_CONFIG = 2;
 Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
   espSerial.begin(allSerialBraudrate); // Initialize Serial2 for ESP32
   nrf52.begin(allSerialBraudrate);
@@ -8025,10 +7872,10 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
   pinMode(U5_GREEN, OUTPUT);
   pinMode(U5_BLUE, OUTPUT);
   pinMode(BUZZ, OUTPUT);
-  AudioMemory(40);
+ // AudioMemory(40);
   delay(200);
-  mixer1.gain(0, 4);
-  mixer2.gain(0, 4);
+ // mixer1.gain(0, 4);
+  //mixer2.gain(0, 4);
   //lightUpLED(1, 1, 1, 0);
   SOSflash(100);
   delay(500);
@@ -8037,17 +7884,136 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
   unsigned long dhcpTimeout = 10000;    // 10-second total timeout for DHCP
   unsigned long responseTimeout = 2000; // 2-second timeout per response
 
+//   // Attempt DHCP with timeout
+// /**/  if (Ethernet.begin(mac, dhcpTimeout, responseTimeout) == 0)
+//   {
+//     Serial.println("DHCP failed! Falling back to static IP...");
+//     // Ethernet.begin(mac, ip); // Static IP fallback
+//   }
+  
+
+  delay(1000);
+  // Serial.println("Ethernet initialized.");
+  // isEthernetConnected = true;
+
+  // if (Ethernet.hardwareStatus() == EthernetNoHardware)
+  // {
+  //   Serial.println("Ethernet shield not found.");
+  //   isEthernetConnected = false;
+  //   ethernetError = ethernetError + "Ethernet shield not found.";
+  // }
+
+  // if (Ethernet.linkStatus() == LinkOFF)
+  // {
+  //   Serial.println("Ethernet cable is not connected.");
+  //   isEthernetConnected = false;
+  //   ethernetError = ethernetError + "Ethernet cable is not connected.";
+  // }
   if (isEthernetConnected)
   {
     DisplayInfo(deviceTeensyMacAddress, "ETHERNET FOUND", codeVersion);
     
-  
+    // mqttClient.setServer(mqttServer, mqttPort);
+    // mqttClient.setCallback(mqttCallback);
+    // useSpeakerSound = true;
+    // ethernetConnectToMqtt();
+    // delay(2000);
+    // ethernetBleData();
+    // delay(2000);
+    // publishDeviceLogData();
   }
   else
   {
+    delay(200);
+    deleteHexFileIfExists();
+    deletewavfile();
+    delay(1000);
+    bleNrf52Init();
+    InternalTemperature.begin(TEMPERATURE_NO_ADC_SETTING_CHANGES);
+   delay(2000);
+  resetAndDisconnect();
+  delay(2000);
+  configureReconnect();
+  delay(2000);
+  connectToWiFi();
+  delay(2000);
+  enableAutoConnect();
+  delay(2000);
+  if (wifiConnected)
+  {
+    // Wait for ESP32 WiFi stack to stabilize (DNS, DHCP) before API call
+    Serial.println("Waiting for WiFi stack to stabilize...");
+    delay(2000);
+    wdt.feed();
+    getApiResponse(deviceApiUrl);
+    wdt.feed();
 
+    if (wifiApiDataState)
+    {
+      // API succeeded — continue WiFi path
+      DisplayInfo("ZIG", "Connecting", codeVersion);
+      delay(4000);
+      wdt.feed();
+      cleanMQTTSession();
+      delay(3000);
+      wdt.feed();
+      connectToMQTT();
+      delay(500);
+      wdt.feed();
+      checkSimCardStatus(false);
+      if (gsmSimFound)
+      {
+        check4GAvailability(); // Phase 1: verify 4G MQTT reachable, sets eg25ReadyForFailover
+        if (!eg25ReadyForFailover)
+        {
+          Serial.println("*** Phase 1: 4G not available — device will stay on WiFi if disconnected ***");
+        }
+        else
+        {
+          Serial.println("*** Phase 1: 4G verified — device will auto-switch to 4G after 2 min WiFi loss ***");
+        }
+      }
+      else
+      {
+        Serial.println("*** Phase 1: No SIM detected — WiFi-only mode, no 4G failover ***");
+      }
+      if (mqttConnected)
+      {
+         myusb.begin();
+        delay(2000);
+        detectQRScanner();
+        delay(1000);
+        detectPN532();
+        delay(2000);
+        wdt.feed();
+        publishDeviceLogData();
+        delay(1000);
+        checkAndPublishCrashReport(); // Check and send crash report after device log
+        delay(2000);
+        wdt.feed();
+       Serial.println("___________Wifi Thread started___________");
+        threads.addThread(getDataFromSubscribedTopic);
+        enableWifiGsm = true;
+        delay(8000);
+        wdt.feed();
+        if (enableTofSensor && !TofModes == 0)
+        {
+          delay(100);
+          publishRawToTopic(deviceTofTopic, TofData, TofData.length());
+        }
+      }
+    }
+    else
+    {
+      // WiFi connected but API failed (no internet) — fall through to 4G path
+      Serial.println("*** WiFi connected but API failed — switching to 4G ***");
+    }
+  }
 
-     wdt.feed();
+  // 4G fallback: no WiFi, or WiFi had no internet (API failed), or MQTT failed
+  if (!wifiApiDataState || !mqttConnected)
+  {
+    wdt.feed();
     displayCommand(switchingTo4GDisplayPage);
     deviceInfoPageStatus = true;
     delay(3000);
@@ -8089,59 +8055,6 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
         }
       }
     }
-    else if(!gsmSimFound)
-    {
-      wdt.feed();
-      DisplayInfo("Switching to wifi","connecting",codeVersion);
-    delay(200);
-    deleteHexFileIfExists();
-    deletewavfile();
-    delay(1000);
-    bleNrf52Init();
-    InternalTemperature.begin(TEMPERATURE_NO_ADC_SETTING_CHANGES);
-   delay(2000);
-  resetAndDisconnect();
-  delay(2000);
-  configureReconnect();
-  delay(2000);
-  connectToWiFi();
-  delay(2000);
-  enableAutoConnect();
-  delay(2000);
-     delay(2000);
-     wdt.feed();
-    getApiResponse(deviceApiUrl);
-     wdt.feed();
-   delay(4000);
-   DisplayInfo("ZIG", "Connecting", codeVersion);
-    cleanMQTTSession();
-    delay(3000);
-    connectToMQTT();
-    delay(500);
-          if (mqttConnected)
-      {
-         myusb.begin();
-        delay(2000);
-        detectQRScanner();
-        delay(1000);
-        detectPN532();
-        delay(2000);
-        publishDeviceLogData();
-        delay(1000);
-        checkAndPublishCrashReport(); // Check and send crash report after device log
-        delay(2000);
-       Serial.println("___________Wifi Thread started___________");
-        threads.addThread(getDataFromSubscribedTopic);
-        enableWifiGsm = true;
-        delay(8000);
-        if (enableTofSensor && !TofModes == 0)
-        {
-          delay(100);
-          publishRawToTopic(deviceTofTopic, TofData, TofData.length());
-        }
-      }
-    }
-
     delay(2000);
     wdt.feed();
     if (gsmMqttConnected)
@@ -8185,195 +8098,16 @@ Serial2.addMemoryForRead(serial2Buffer_hw, sizeof(serial2Buffer_hw));
       Serial.println("___________BLE CARD SCAN ENABLED___________");
       beginBleScan();
     }
-      displayAllConnectedPage();
   }
 
-
-
-  //   delay(200);
-  //   deleteHexFileIfExists();
-  //   deletewavfile();
-  //   delay(1000);
-  //   bleNrf52Init();
-  //   InternalTemperature.begin(TEMPERATURE_NO_ADC_SETTING_CHANGES);
-  //  delay(2000);
-  // resetAndDisconnect();
-  // delay(2000);
-  // configureReconnect();
-  // delay(2000);
-  // connectToWiFi();
-  // delay(2000);
-  // enableAutoConnect();
-  // delay(2000);
-  // if (wifiConnected)
-  // {
-  //   // Wait for ESP32 WiFi stack to stabilize (DNS, DHCP) before API call
-  //   Serial.println("Waiting for WiFi stack to stabilize...");
-  //   delay(2000);
-  //   wdt.feed();
-  //   getApiResponse(deviceApiUrl);
-  //   wdt.feed();
-
-  //   if (wifiApiDataState)
-  //   {
-  //     // API succeeded — continue WiFi path
-  //     DisplayInfo("ZIG", "Connecting", codeVersion);
-  //     delay(4000);
-  //     wdt.feed();
-  //     cleanMQTTSession();
-  //     delay(3000);
-  //     wdt.feed();
-  //     connectToMQTT();
-  //     delay(500);
-  //     wdt.feed();
-  //     checkSimCardStatus(false);
-  //     if (gsmSimFound)
-  //     {
-  //       check4GAvailability(); // Phase 1: verify 4G MQTT reachable, sets eg25ReadyForFailover
-  //       if (!eg25ReadyForFailover)
-  //       {
-  //         Serial.println("*** Phase 1: 4G not available — device will stay on WiFi if disconnected ***");
-  //       }
-  //       else
-  //       {
-  //         Serial.println("*** Phase 1: 4G verified — device will auto-switch to 4G after 2 min WiFi loss ***");
-  //       }
-  //     }
-  //     else
-  //     {
-  //       Serial.println("*** Phase 1: No SIM detected — WiFi-only mode, no 4G failover ***");
-  //     }
-  //     if (mqttConnected)
-  //     {
-  //        myusb.begin();
-  //       delay(2000);
-  //       detectQRScanner();
-  //       delay(1000);
-  //       detectPN532();
-  //       delay(2000);
-  //       wdt.feed();
-  //       publishDeviceLogData();
-  //       delay(1000);
-  //       checkAndPublishCrashReport(); // Check and send crash report after device log
-  //       delay(2000);
-  //       wdt.feed();
-  //      Serial.println("___________Wifi Thread started___________");
-  //       threads.addThread(getDataFromSubscribedTopic);
-  //       enableWifiGsm = true;
-  //       delay(8000);
-  //       wdt.feed();
-  //       if (enableTofSensor && !TofModes == 0)
-  //       {
-  //         delay(100);
-  //         publishRawToTopic(deviceTofTopic, TofData, TofData.length());
-  //       }
-  //     }
-  //   }
-  //   else
-  //   {
-  //     // WiFi connected but API failed (no internet) — fall through to 4G path
-  //     Serial.println("*** WiFi connected but API failed — switching to 4G ***");
-  //   }
-  // }
-
-  // // 4G fallback: no WiFi, or WiFi had no internet (API failed), or MQTT failed
-  // if (!wifiApiDataState || !mqttConnected)
-  // {
-  //   wdt.feed();
-  //   displayCommand(switchingTo4GDisplayPage);
-  //   deviceInfoPageStatus = true;
-  //   delay(3000);
-  //   wdt.feed();
-  //     String resetResponse = getEG25ResetResponse();
-  //    Serial.println("Reset Response: " + resetResponse);
-  //   wdt.feed();
-  //   String deviceModel = getEG25DeviceModel();
-  //   Serial.println("Device Model: " + deviceModel);
-  //   checkSimCardStatus(true); // halt program
-  //   wdt.feed();
-  //   if (gsmSimFound)
-  //   {
-  //     delay(2000);
-  //     wdt.feed();
-  //     activateAPN(); // halt program
-  //     delay(500);
-  //     wdt.feed();
-  //     if (gsmApnStatus)
-  //     {
-  //       delay(100);
-  //       setInternetRegistration();
-  //       delay(1000);
-  //       wdt.feed();
-  //       activateInternet(); // halt program
-  //       delay(100);
-  //      deleteHexFileIfExists();
-  //      deletewavfile();
-  //      eg25moduleconnected = true;
-  //       wdt.feed();
-  //       get4GApiReponse(); // halt program
-  //       wdt.feed();
-  //       if (gsmInternetStatus && wifiApiDataState)
-  //       {
-  //         gsmMqttConnectFlow(false);
-  //         wdt.feed();
-  //         delay(1000);
-  //         // enableEG25GPSModule();
-  //       }
-  //     }
-  //   }
-  //   delay(2000);
-  //   wdt.feed();
-  //   if (gsmMqttConnected)
-  //   {
-  //     myusb.begin();
-  //     delay(2000);
-  //     detectQRScanner();
-  //     delay(1000);
-  //     detectPN532();
-  //     delay(2000);
-  //     wdt.feed();
-  //     publishDeviceLogData();
-  //     delay(1000);
-  //     checkAndPublishCrashReport(); // Check and send crash report after device log
-  //     delay(2000);
-  //     wdt.feed();
-  //     Serial.println("___________GSM Thread started___________");
-  //     threads.addThread(gsmPortLisener);
-  //     enableWifiGsm = false;
-  //     delay(8000);
-  //     wdt.feed();
-  //     if (enableTofSensor && !TofModes == 0)
-  //     {
-  //       delay(100);
-  //       publishRawToTopicEG25(deviceTofTopic, TofData);
-  //     }
-  //   }
-  // }
-
-  //   Serial.println(bleNrf52Command);
-  //   threads.addThread(gpsSerialPortLisener);
-  //   delay(5000);
-  //   if (enableTofSensor)
-  //   {
-  //     tofSerial.begin(allSerialBraudrate);
-  //     Serial.println("___________TOF SENSOR ENABLED___________");
-  //     threads.addThread(tofSerialPortLisener);
-  //   }
-  //   if (bleScanMode)
-  //   {
-  //     Serial.println("___________BLE CARD SCAN ENABLED___________");
-  //     beginBleScan();
-  //   }
-  // }
-
-  // displayAllConnectedPage();
+  displayAllConnectedPage();
 
 
 
 
 
  
-
+}
  
 
 
@@ -8502,31 +8236,11 @@ void switchToEG25Mode()
   wdt.feed();
 
   displayCommand(zigNetworkFoundDisplayPage);
-  if (useSpeakerSound)
-  {
-    // NEW FIX: Temporarily suspend NFC thread to prevent Pin 2/3 Hardware collision
-    threads.suspend(threads.id()); // Suspend active conflicts if possible, or just delay
-    
-    // Lower the audio gain slightly just for the failover sound to reduce peak current
-    float oldGain = gainValue;
-    mixer1.gain(0, gainValue * 0.5); 
-    mixer2.gain(0, gainValue * 0.5);
 
-    fileIndex = 3;
-    playSpeaker = true;
-    playWavFile(); // Play synchronously before GSM thread starts
-
-    // Restore volume
-    mixer1.gain(0, oldGain);
-    mixer2.gain(0, oldGain);
-  }
-  else
-  {
     lightUpLED(2, 2, 2, 1);
     delay(3000);
     wdt.feed();
     lightUpLED(0, 0, 0, 0);
-  }
   
   deviceHomePageStatus = true;
   displayLine1 = GsmNetworkTypeString;
@@ -8661,12 +8375,7 @@ void loop()
   //   }
   //   mqttClient.loop();
   // }
-  if (playSpeaker)
-  {
-    wdt.feed(); // Feed watchdog before audio playback
-    playWavFile();
-
-  }
+ 
 
 }
 
